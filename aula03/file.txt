@@ -1,0 +1,148 @@
+    1  uname -a
+    2  docker ps
+    3  docker ps -a
+    4  docker container run hello-world
+    5  docker ps -a
+    6  docker container run hello-world
+    7  docker ps
+    8  docker ps -a
+    9  docker container ls
+   10  docker container run redis:alpine
+   11  docker ps
+   12  docker container ls
+   13  docker image ps
+   14  docker image ls
+   15  docker container run rediscommander/redis-commander
+   16  docker container ls
+   17  docker image ls
+   18  docker container ls
+   19  docker container ls -a
+   20  docker container rm
+   21  docker rm $(docker ps -aq)
+   22  docker container ls -a
+   23  docker container ls 
+   24  docker run hello-world
+   25  node -v
+   26  npm install
+   27  npm run app.js
+   28  ls
+   29  node app.js
+   30  htop
+   31  apt install htop
+   32  sudo apt install htop
+   33  docker run hello-world
+   34  docker ps
+   35  docker image ps
+   36  docker images
+   37  docker image ld
+   38  docker image ls
+   39  docker ps -a
+   40  docker images
+   41  docker stop $(docker ps -aq)
+   42  docker rm $(docker ps -aq)
+   43  docker run --myredis -d redis:alpine
+   44  docker run --name myredis -d redis:alpine
+   45  docker images
+   46  docker run -it --network rede --rm redis redis-cli -h myredis
+   47  docker images
+   48  docker container ls
+   49  docker run --name myredis2 -d redis:4.0.14
+   50  docker images
+   51  docker ps
+   52  telnet localhost 6379
+   53  ls
+   54  cd Documentos/
+   55  mkdir projects
+   56  cd projects/
+   57  mkdir aula01
+   58  cd aula01/
+   59  code .
+   60  npm start app.js
+   61  rm -rf node_modules/
+   62  docker build -t node-nosql:latest .
+   63  docker images
+   64  docker run node-nosql
+   65  docker run -d node-nosql
+   66  docker ps
+   67  docker stop $(docker ps -aq)
+   68  docker run -d -p 80:3000 node-nosql
+   69  docker run -d -p 81:3000 node-nosql
+   70  docker ps
+   71  docker stop frosty_pare
+   72  docker start frosty_pare
+   73  docker logs 3000
+   74  docker run -d -p 81:3000 node-nosql
+   75  docker run -d -p 82:3000 node-nosql
+   76  docker logs 3000
+   77  docker ps
+   78  docker logs 6c2158062cde
+   79  docker ps
+   80  docker stop quirky_stonebraker
+   81  docker -v
+   82  docker pull redis
+   83  docker images 
+   84  ls
+   85  docker images 
+   86  docker run -d -p8080:3000 redis
+   87  docker volume ls
+   88  ls
+   89  docker node
+   90  docker images
+   91  ls
+   92  cd Documentos/
+   93  ls
+   94  ls projects/
+   95  cd projects/
+   96  mkdir aula03
+   97  cd aula0
+   98  cd aula03
+   99  docker images
+  100  docker ps
+  101  npm init
+  102  ls
+  103  npm i --save express redis
+  104  cat package
+  105  cat package.json 
+  106  touch Dockerfile
+  107  vim Dockerfile 
+  108  ls
+  109  cat package
+  110  cat package.json 
+  111  ls
+  112  cat Dockerfile 
+  113  ls
+  114  touch app.js
+  115  vim app.js 
+  116  cat app.js 
+  117  npm start
+  118  ng serve
+  119  ls
+  120  cat app.js 
+  121  cat package.json 
+  122  vim package.json 
+  123  ng serve
+  124  npm start
+  125  cat package.json 
+  126  vim package.json 
+  127  npm start
+  128  vim package.json 
+  129  ng serv3e
+  130  ng serve
+  131  ls
+  132  ng serve
+  133  npm start
+  134  node app.js 
+  135  vim package.json 
+  136  npm start
+  137  vim app.js 
+  138  code app.js 
+  139  code .
+  140  docker ps
+  141  node app.js 
+  142  docker rm -f redis
+  143  docper ps
+  144  docker ps
+  145  docker rm -f 0c6f7d6ee366
+  146  docker run -p 6379:6379 --name redis-nosql -d redis
+  147  node app.js 
+  148  history > file.txt
