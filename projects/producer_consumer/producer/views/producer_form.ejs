@@ -17,6 +17,20 @@
     <% if(result) { %>
         <div class="col-12 text-center text-success">Notificação enviada com sucesso!</div>
     <% } %>
+
+    <div class="col-12 text-center font-weight-bold">Elementos na Lista:</div>
+    <% if(list && list.length > 0) { %>
+        <ul class="col-3 mx-auto list-inline">
+            <% list.forEach(n => { %>
+                <li class="text-center font-weight-bold text-success border-top"><%= n %></li>
+            <% }) %>
+        </ul>
+    <% }else{ %>
+        <p class="col-3 text-center mx-auto text-danger">
+            Ainda não há elementos na lista! <br> 
+            (aperte F5 para atualizar a lista)
+        </p>
+    <% } %>
 </div>
 
 <% include ./footer %>

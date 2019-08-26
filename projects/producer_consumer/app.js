@@ -13,7 +13,7 @@ client.on('error', (e) => {
 
 client.on('connect', () => {
   console.log('REDIS connected')
-})
+}) 
 
 app.post('/produce/:notification', function (req, res) {
   const notification = req.params.notification

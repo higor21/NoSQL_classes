@@ -19,8 +19,11 @@ client.on('connect', () => {
 })
 
 app.get('/', function (req, res) {
-  res.render('producer_form', {result: noticeAble})
-  noticeAble = false
+  client.lrange('nots-list', 0, -1, (err, reply) => {
+    const list = reply
+    res.render('producer_form', {result: noticeAble, list: list})
+    noticeAble = false
+  })
 })
 
 app.post('/produce', function (req, res) {
