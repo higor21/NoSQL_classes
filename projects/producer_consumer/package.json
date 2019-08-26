@@ -1,0 +1,15 @@
+{
+  "name": "aula03",
+  "version": "1.0.0",
+  "description": "first project with redis",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "higor",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "redis": "^2.8.0"
+  }
+}
