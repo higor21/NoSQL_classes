@@ -1,0 +1,21 @@
+<% include ./header %>
+
+<div class="row">
+    <h1 class="w-100 text-center mt-5">Produzir Notificação!</h1>
+    
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/consume" method="GET">
+            <div class="form-group">
+                <button class="btn btn-primary float-right">Pegar Notificação</button>
+            </div>
+        </form>
+    </div>
+    
+    <% if(notification) { %>
+        <div class="col-12 text-center">
+            <strong>Notificação:&nbsp;</strong> <span class=" text-success"><%= notification %></span>
+        </div>
+    <% } %>
+</div>
+
+<% include ./footer %>

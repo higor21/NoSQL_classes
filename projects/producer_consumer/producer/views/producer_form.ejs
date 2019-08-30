@@ -6,7 +6,7 @@
     <div style="width: 30%; margin: 25px auto;">
         <form action="/produce" method="POST">
             <div class="form-group">
-                <input class="form-control" placeholder="texto da notificação" name="notification" type="text">
+                <input minlength="1" class="form-control" placeholder="texto da notificação" name="notification" type="text" required>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary">Submit!</button>

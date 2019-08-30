@@ -1,11 +1,14 @@
-
-
 const express = require('express');
 const app = express();
-// package to connect the redis db
 const redis = require('redis'); 
 const client = redis.createClient();
+const bodyParser = require("body-parser")
 const port = 3000;
+
+app.set('view engine','ejs')
+app.use(bodyParser.urlencoded({extended: true})); 
+
+var msg = null
 
 client.on('error', (e) => {
   console.log(`${e}`)
@@ -13,20 +16,21 @@ client.on('error', (e) => {
 
 client.on('connect', () => {
   console.log('REDIS connected')
-}) 
+})
 
-app.post('/produce/:notification', function (req, res) {
-  const notification = req.params.notification
-  client.lpush(['nots-list', notification], (err, reply) => {
-      if(!err) console.log(reply)
-      else console.log(`error: ${err}`)
-  })
-});
+app.get('/', function(req, res) {
+  res.render('consumer_view', {notification: msg})
+  msg = null
+})
 
 app.get('/consume', function (req, res) {
-    client.rpop('nots-list', (err, reply) => {
-        if(!err) res.send(reply)
-    })
+  client.brpop('nots-list', 0, (err, reply) => {
+    if(err) res.send(reply)
+    else{
+      msg = reply[1]
+      res.redirect('/')
+    }
+  })
 })
 
 app.listen(port, function () {
