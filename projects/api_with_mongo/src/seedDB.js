@@ -1,23 +1,4 @@
-var User  = require("./models/user"),
-    Word     = require("./models/word")
-
-var users = [
-    {
-        username: "Higor",
-        password: "1234",
-        email: "felype.cet.15@gmail.com" 
-    },
-    {
-        username: "Elione",
-        password: "1234",
-        email: "elione@gmail.com" 
-    },
-    {
-        username: "Silvia",
-        password: "1234",
-        email: "silvia@gmail.com" 
-    }
-]
+var Word     = require("./models/word")
 
 var words = [
     {
@@ -30,64 +11,29 @@ var words = [
         ]
     },
     {
-        word: "every",
-        translation: ["todos"],
-        meaning: ["when you refer to all things"], 
+        word: "car",
+        translation: ["carro"],
+        meaning: ["it's a four-wheeled vehicle"], 
         examples: [
-            "give me every houses in your city",
-            "I'll buy every cars in that car story"
+            "give me a car and I'll to drive it",
+            "My brother won a new car"
         ]
     },
     {
-        word: "every",
-        translation: ["todos"],
-        meaning: ["when you refer to all things"], 
+        word: "sad",
+        translation: ["triste"],
+        meaning: ["when you are filling very bad about something"], 
         examples: [
-            "give me every houses in your city",
-            "I'll buy every cars in that car story"
+            "he is sad because his mother argued with him",
+            "I'm so sad today"
         ]
     }
 ]
 
 function seedDB(){
-    User.deleteMany({}, function(err){
+    Word.deleteMany({}, function(err){
         if(!err){
-            Word.deleteMany({}, function(err){
-                if(!err){
-                    var k = 1
-                    users.forEach(u => {
-                        User.create(u, (err, createdUser) => {
-                            if(!err){
-                                createdUser.words = []
-                                Word.create({
-                                    word: `every_${k++}$`,
-                                    translation: ["todos"],
-                                    meaning: ["when you refer to all things"], 
-                                    examples: [
-                                        "give me every houses in your city",
-                                        "I'll buy every cars in that car story"
-                                    ]
-                                }, (err, createdWord) => {
-                                    if(!err){
-                                        createdUser.words.push(createdWord)
-                                        createdUser.save()
-                                    }
-                                })
-
-                                /* u.words = []
-                                words.forEach(w => {
-                                    Word.create(w, (err, createdWord) => {
-                                        if(!err){
-                                            createdUser.words.push(createdWord)
-                                        }
-                                    })
-                                })
-                                createdUser.save() */
-                            }
-                        })
-                    })
-                }
-            })
+            words.forEach(w => Word.create(w))
         }
     })
 }
