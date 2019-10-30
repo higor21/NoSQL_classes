@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
+const timer = require('execution-time')()
  
 // Connection URL
 const url = 'mongodb://localhost:27017';
@@ -9,32 +9,45 @@ const dbName = 'myproject';
  
 // Use connect method to connect to the server
 MongoClient.connect(url, function(err, client) {
-    assert.equal(null, err);
     console.log("Connected successfully to server");
     const db = client.db(dbName);
-    for(var i=0; i<1000000; i+=100)
-        insertDocuments(db, 100);
+    const array = genarateArray()
+
+    timer.start()
+    time_result = await insertDocuments(db, a)
+    timer.stop().time
+
     client.close();
 });
 
-const insertDocuments = function(db, slot) {
-    // Get the documents collection
-    const collection = db.collection('documents');
-
+const genarateArray = function(qty){
     var arrayToInsert = []
 
-    for(var i=0; i<slot; i++){
+    for(var i=0; i<qty; i++){
         arrayToInsert.push({
             val1: genarateNumber,
             val2: genarateNumber
         })
     }
 
-    // Insert some documents
-    collection.insertMany(arrayToInsert, function(err, result) {
-        assert.equal(err, null);
+    return arrayToInsert
+}
 
-    });
+// Insert the documents in slots and return the time of insertion
+const insertDocuments = async function(db, slot, max) {
+    // Get the documents collection
+    const collection = db.collection('documents');
+
+    var total_time = 0;
+
+    // Insert some documents
+    for(var i=0; i < max; i+=slot){
+        collection.insertMany(arrayToInsert[index, index + slot], function(err, result) {
+            if(err) console.error(err)
+            else{
+            }
+        });
+    }
 }
 
 const genarateNumber = () => Math.floor(Math.random()*101)
