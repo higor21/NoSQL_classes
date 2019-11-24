@@ -1,0 +1,306 @@
+<% include ../partials/header %>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="row" style="margin: 0;">
+            <% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
+                <div class="col-md-10 p-0">
+                    <h1 id="header_fl">
+                        Add Features to Project
+                        <i class="fa fa-plus" style="float: right;"></i>
+                    </h1>
+                </div>
+                <div class="col-md-2 p-0"><i class="fas fa-compress-arrows-alt" id="hide_btn"></i></div>
+            <% }else{ %>
+                <div class="col-md-12 p-0">
+                    <h1 id="header_fl">Features of Project</h1>
+                </div>
+            <% } %>
+        </div>
+    	<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
+    	    <input class='in_fl' type="text" id="add_item" placeholder="Add Item">
+        <% } %>
+        
+    	<ul id="features_list">
+    	</ul>
+    	
+    	<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
+        	<form  id="features_list_form" action="/campgrounds/<%= camp._id %>/features_list?_method=PUT" method="POST">
+                <input class='in_fl' type="text" name="features_list" id="data" style="display: none;">
+                <button id="btn_save_feat" type="submit" class="btn btn-success pull-right">Save</button>
+            </form>
+        <% } %>
+    </div>
+    <div class="col-md-9">
+        <div class="thumbnail">
+            <div style="position: relative; margin-bottom: 30px;">
+                <img id="img_slider" class="img-responsive show_slider show_info_slider" src=<%= camp.image %>>
+                <img src="../images/arrow_left.png" id="show_left">
+                <img src="../images/arrow_right.png" id="show_right">
+                <!-- have to do alterations here -->
+                <% if(currentUser && camp.author.id.equals(currentUser._id)) { %>
+                    <form  id="rm_img_option" action="/campgrounds/<%= camp._id %>/rm_img?_method=PUT" method="POST">
+                        <input class='in_rm_img hide_content' type="text" name="img_to_rm">
+                        <button type="submit" class="" style="background: none; border: none;"><i class="far fa-minus-square"></i></button>
+                    </form>
+                    <div id="n_img_option" class="n_img_trigger">
+                      <i class="fas fa-upload"></i>
+                    </div>
+                    <% include ../partials/model_addImg %>
+                <% } %>
+            </div>
+            <div class="caption-full">
+                <% if(currentUser){ %>
+                    <div class="stars pull-right" style="text-align: center;">
+                        <label>Give your Opinion</label>
+                        <form action="/campgrounds/<%= camp._id %>/putStar?user=<%=currentUser._id%>&_method=PUT" method='POST' style="text-align: right;">
+                            <input class="star star-5" value='5' id="star-5" type="radio" name="star"/>
+                            <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                            <input class="star star-4" value='4' id="star-4" type="radio" name="star"/>
+                            <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                            <input class="star star-3" value='3' id="star-3" type="radio" name="star"/>
+                            <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                            <input class="star star-2" value='2' id="star-2" type="radio" name="star"/>
+                            <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>
+                            <input class="star star-1" value='1' id="star-1" type="radio" name="star"/>
+                            <label class="star star-1" for="star-1"><i class="far fa-star"></i></label>
+                            <button type="submit" id="btn_stars">Send</button>
+                        </form>
+                    </div>
+                <% } %>
+                <h4 style="color: #337eb9;">
+                    <%= camp.name %>
+                    <span class="star-score">
+                        <i class="fas fa-star"></i>&nbsp;<%= parseFloat(camp.score).toFixed(2) %>
+                        <span style="color: #337eb9;">,</span>&nbsp;<%= camp.stars.length %>&nbsp;users
+                    </span>
+                </h4>
+                <p> <%= camp.description %> </p>
+                <p>
+                    <em>Submitted by <a href="/user/<%= camp.author.id %>"> <%= camp.author.username %> </a>, <%= moment(camp.createdAt).fromNow() %></em>
+                </p>
+                <% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
+                    <a href="/campgrounds/<%= camp._id %>/edit">
+                        <button type="button" class="btn btn-warning">Edit</button>
+                    </a>
+                <% } %> 
+                <% if(currentUser && (camp.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                    <form action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST" style="display:inline!important;" >
+                        <button class="btn btn-danger">Remove</button>
+                    </form>
+                <% } %> 
+            </div>
+        </div>
+        <div class="well">
+            <div class="text-right">
+                <a class="btn btn-success" href="/campgrounds/<%= camp._id %>/comments/new">New Comment</a>
+            </div>
+            <hr>
+            <% camp.comments.forEach(function(comment){ %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong><%= comment.author.username %></strong>
+                        <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+                        <p>
+                            <%= comment.text %> 
+                        </p>
+                        <div>
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                <a style="float: left; padding-left: 5px;" href="/campgrounds/<%= camp._id %>/comments/<%= comment._id %>/edit">
+                                    <i class="fas fa-edit" style="color: #af6c00;"></i>
+                                </a>
+                            <% } %>
+                            <% if(currentUser && (comment.author.id.equals(currentUser._id) || camp.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                                <form action="/campgrounds/<%= camp._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                    <button style="border: none; background: none; color: darkred; float: left;"><i class="fas fa-trash-alt"></i></button>
+                                </form>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var itens = JSON.parse(unescape("<%=camp.features_list%>"))
+    
+    var able_to_sabe = function() {
+        var b = false;
+        document.querySelectorAll("#add_item, [id*='add_subitem']").forEach(i => {
+            if(i.value != "")
+                b = true;
+        })
+        if(document.querySelector('#btn_save_feat'))
+            document.querySelector('#btn_save_feat').disabled = b
+    }
+    
+    able_to_sabe()
+    
+    // ready
+    var reload_itens = function(){
+    	let i = 0, j;
+    	$('#features_list').empty()
+    	itens.forEach(elem => {
+    		let str = 	"<li class='item "+ i +"'>"+
+                            "<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
+    						    "<span class='sp_fl hf_trash'><i class='fa fa-trash'></i></span>" +
+    						    elem.title +
+    						"<% }else{ %>" +
+    						    "<span class='sp_fl' style='margin-left: 20px;'>" +
+    						        elem.title +
+    						    "</span>" +
+    						"<% } %>" +
+    						"<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
+    						    "<span class='sp_fl hf_plus'><i class='fa fa-plus'></i></span>" +
+    						"<% } %>" +
+    					"</li>" +
+    					"<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
+        					"<input class='in_fl' id='add_subitem_"+ i +"' type='text' placeholder='Add SubItem'>" +
+						"<% } %>" 
+    		j = 0;
+    		elem.sub_itens.forEach(s_e => {
+    			str += 	"<li class='sub_item "+ i +"_"+ (j++) +"'>" + 
+    			            "<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
+    			                "<span class='hf_trash sp_fl'><i class='fa fa-trash'></i></span>" +
+        						"<span class='sp_fl hf_angle'><i class='fas fa-angle-right'></i></span>" +
+        						s_e.topic +
+    						"<% }else{ %>" +
+    						    "<span class='sp_fl' style='margin-left: 20px;'>" +
+    						        "<span class='sp_fl hf_angle'><i class='fas fa-angle-right'></i></span>" +
+        						    s_e.topic +
+    						    "</span>" +
+    						"<% } %>" +
+    					"</li>"
+    		})
+    		i++;
+    		$("#features_list").append(str)
+    	})
+    }
+    
+    reload_itens()
+    
+    // ready
+    var add_itens = function(obj, event){
+    	if(event.which === 13){
+    		//grabbing new todo text from input
+    		var todoText = $(obj).val();
+    		$(obj).val("");
+    		//create a new li and add to ul
+    		if(obj.id == "add_item")
+    			itens.push({ title: todoText, sub_itens: []})
+    		else{
+    			var index_si = parseInt(obj.id.split('_')[2])
+    			itens[index_si].sub_itens.push({topic: todoText})
+    		}
+    		reload_itens()
+    		$("#data")[0].value = escape(JSON.stringify(itens))
+    	}
+		//console.log($("#data")[0].value)
+		able_to_sabe()
+    }
+    
+    // ready
+    $("#add_item").keypress(function(event){
+    	add_itens(this, event)
+    });
+    
+    $("#hide_btn").click(function(){
+        var size = $("[id *= 'add_subitem_']").length
+        var b = $("#hide_btn").attr('class').includes('expand')
+        for(var i=0; i<size; i++){
+            b ? $('#add_subitem_'+i).fadeIn() : $('#add_subitem_'+i).fadeOut()
+        }
+        if(b){
+            $("#hide_btn").removeClass('fa-expand-arrows-alt')
+            $("#hide_btn").addClass('fa-compress-arrows-alt')
+        }else{
+            $("#hide_btn").removeClass('fa-compress-arrows-alt')
+            $("#hide_btn").addClass('fa-expand-arrows-alt')
+        }
+    })
+    
+    // ready
+    $("#features_list").on("keydown","[id*='add_subitem']", function(event){
+    	add_itens(this, event)
+    });
+    
+    // ready
+    $("#features_list").on("click", ".fa-plus", function(){
+    	var input_i = $(this).parent().parent()[0].className.split(' ')[1]
+    	$('#add_subitem_' + input_i).fadeToggle();
+    });
+    
+    $("h1 > .fa-plus").click(function(){
+    	$("#add_item").fadeToggle();
+    })
+    
+    // ready
+    $("#features_list").on("click", ".hf_trash", function(event){
+    	if($(this).parent()[0].className.split(' ')[0] == 'item'){
+    		pos = itens.map(e => {return e.title}).indexOf($(this).parent()[0].textContent)
+    		if(pos > -1) itens.splice(pos, 1)
+    	}else{
+    		item_i = parseInt($(this).parent()[0].className.split(' ')[1][0])
+    		subitem_i = parseInt($(this).parent()[0].className.split(' ')[1][2])
+    		itens[item_i].sub_itens.splice(subitem_i, 1);
+    	}
+    	reload_itens()
+    	$("#data")[0].value = escape(JSON.stringify(itens))
+    });
+    
+    // SHOW SLIDER
+    
+    var index = 0;
+    var imgs = JSON.parse(unescape("<%=camp.images_list%>"))
+    var length = imgs.length;
+    
+    var verify_arrows = function(){
+        if(index == length - 1)
+            $("#show_right").fadeOut();
+        else
+            $("#show_right").fadeIn();
+        if(index == 0){
+            $("#show_left").fadeOut();
+            $("#rm_img_option").fadeOut();
+        }else{
+            $("#show_left").fadeIn();
+            $("#rm_img_option").fadeIn();
+        }
+    }
+    
+    verify_arrows()
+    
+    document.querySelector("#show_right").addEventListener('click', function(){
+        if(index + 1 < length){
+            document.querySelector("#img_slider").classList.remove("show_slider");
+            index++;
+            document.querySelector(".in_rm_img").value = imgs[index]
+            verify_arrows()
+            setTimeout(() => {
+                document.querySelector("#img_slider").setAttribute('src', imgs[index])    
+                document.querySelector("#img_slider").classList.add("show_slider");
+            }, 1000);
+        }
+    })
+    
+    document.querySelector("#show_left").addEventListener('click', function(){
+        if(index - 1 >= 0){
+            document.querySelector("#img_slider").classList.remove("show_slider");
+            index--;
+            document.querySelector(".in_rm_img").value = imgs[index]
+            verify_arrows()
+            setTimeout(() => {
+                document.querySelector("#img_slider").setAttribute('src', imgs[index])
+                document.querySelector("#img_slider").classList.add("show_slider");
+            }, 1000)
+        }
+    })
+
+</script>
+<% include ../partials/footer %>

@@ -1,0 +1,42 @@
+        </div>
+        
+        <% if(currentUser) { %>
+            <div id="bg_option" class="trigger">
+              <i class="far fa-image"></i>
+            </div>
+            <% include ./model_bg %>
+        <% } %>
+        
+        <!-- jQuery CDN -->
+        <script
+          src="https://code.jquery.com/jquery-3.1.1.min.js"
+          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+          crossorigin="anonymous">
+        </script>
+        <script>
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        console.log(e.target.result)
+                        $('#img-upload').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            
+            function filter_camp(input){
+                var divs = $('#projects')[0].children
+                for(let i=0; i < divs.length; i++){
+                    if(!divs[i].children[0].children[1].innerText.toLowerCase().includes(input.value.toLowerCase())){
+                        divs[i].style.display = "none"
+                    }else
+                        divs[i].style.display = "block"
+                }
+            }
+        </script>
+        
+        <!-- Bootstrap JS CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
+</html>
